@@ -22,15 +22,12 @@ MillHeater = mill_panelheater_gen2_ns.class_("MillPanelHeaterGen2", uart.UARTDev
 
 CONF_MILL_ID = "mill_id"
 
-CONFIG_SCHEMA = cv.All(
-  climate.CLIMATE_SCHEMA.extend(
+CONFIG_SCHEMA = climate.climate_schema(
     {
-      cv.GenerateID(): cv.declare_id(MillHeater),
+        cv.GenerateID(): cv.declare_id(MillPanelHeaterGen2),
+        cv.Required("name"): cv.string,
     }
-  )
-  .extend(uart.UART_DEVICE_SCHEMA)
-  .extend(cv.COMPONENT_SCHEMA)
-)
+).extend(cv.COMPONENT_SCHEMA)
 
 async def to_code(config):
   var = cg.new_Pvariable(config[CONF_ID])
